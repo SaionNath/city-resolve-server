@@ -30,7 +30,18 @@ function generateTrackingId() {
   return `${prefix}-${date}-${random}`;
 }
 
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://your-frontend-domain.vercel.app",
+    ],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  }),
+);
+
 app.use(express.json());
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.ulrflcx.mongodb.net/?retryWrites=true&w=majority`;
@@ -58,6 +69,9 @@ async function run() {
     if (!auth) return res.status(401).send({ message: "Unauthorized" });
 
     try {
+      if (!auth.startsWith("Bearer ")) {
+        return res.status(401).send({ message: "Invalid token format" });
+      }
       const token = auth.split(" ")[1];
       const decodedUser = await admin.auth().verifyIdToken(token);
 
