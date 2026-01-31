@@ -6,7 +6,8 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET);
 const admin = require("firebase-admin");
 
 const app = express();
-const port = process.env.PORT || 3000;
+// const port = process.env.PORT || 3000;
+module.exports = app;
 const crypto = require("crypto");
 const PDFDocument = require("pdfkit");
 
@@ -1462,4 +1463,5 @@ async function run() {
 run().catch(console.dir);
 
 app.get("/", (req, res) => res.send("City resolve Server listening"));
-app.listen(port, () => console.log(`Server running on port ${port}`));
+// app.listen(port, () => console.log(`Server running on port ${port}`));
+module.exports = app;
