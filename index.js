@@ -11,10 +11,12 @@ module.exports = app;
 const crypto = require("crypto");
 const PDFDocument = require("pdfkit");
 
-const serviceAccount = require("./city-resolve-client-firebase-adminsdk.json");
+// const serviceAccount = require("./city-resolve-client-firebase-adminsdk.json");
 
-// const decoded = Buffer.from(process.env.FB_SERVICE_KEY, "base64").toString("utf8");
-//const serviceAccount = JSON.parse(decoded);
+const decoded = Buffer.from(process.env.FB_SERVICE_KEY, "base64").toString(
+  "utf8",
+);
+const serviceAccount = JSON.parse(decoded);
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -1463,5 +1465,8 @@ async function run() {
 run().catch(console.dir);
 
 app.get("/", (req, res) => res.send("City resolve Server listening"));
+app.get("/test", (req, res) => {
+  res.send("API working");
+});
 // app.listen(port, () => console.log(`Server running on port ${port}`));
 module.exports = app;
