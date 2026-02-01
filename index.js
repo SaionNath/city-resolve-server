@@ -32,13 +32,8 @@ function generateTrackingId() {
 
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "https://your-frontend-domain.vercel.app",
-    ],
+    origin: true,
     credentials: true,
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
   }),
 );
 
@@ -1479,8 +1474,5 @@ async function run() {
 run().catch(console.dir);
 
 app.get("/", (req, res) => res.send("City resolve Server listening"));
-app.get("/test", (req, res) => {
-  res.send("API working");
-});
 // app.listen(port, () => console.log(`Server running on port ${port}`));
 module.exports = app;
