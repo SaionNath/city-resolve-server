@@ -7,6 +7,7 @@ const admin = require("firebase-admin");
 
 const app = express();
 // const port = process.env.PORT || 3000;
+let isConnected = false;
 module.exports = app;
 const crypto = require("crypto");
 const PDFDocument = require("pdfkit");
@@ -1471,7 +1472,16 @@ async function run() {
   );
 }
 
-run().catch(console.dir);
+async function init() {
+  if (isConnected) return;
+  await run();
+  isConnected = true;
+}
+
+app.use(async (req, res, next) => {
+  await init();
+  next();
+});
 
 app.get("/", (req, res) => res.send("City resolve Server listening"));
 // app.listen(port, () => console.log(`Server running on port ${port}`));
